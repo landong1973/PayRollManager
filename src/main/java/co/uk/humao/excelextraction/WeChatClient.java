@@ -26,11 +26,12 @@ public class WeChatClient {
 	public static final String CORP_SECRETE= "XXXXXXX";
 	public static final int AGENT_ID =  111111;
 	
-	String getTokenUrl = "https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid="+CORP_ID+"&cor[secret="+CORP_SECRETE;
+	String getTokenUrl = "https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid="+CORP_ID+"&corpsecret="+CORP_SECRETE;
 	
 	String sendMessageUrl = "https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=";
 	public String getToken() {
 		return httpGet(getTokenUrl);
+		//return sample:"{"errcode":0,"errmsg":"ok","access_token":"gZqsAzJlsSZ78WDDg9ITFFdAb2xvN2zcw4wk9Vr_XrtazOzgsmQYr_Yy7QNffIcshR28ROVKm5cBAorvEm7mU1jUFmHZVUQK0OMIuA1YJIK5BmiRNTuzq1Isf9yHmAJLnDfjT0mGQn9YVsGBl4zN4QNVkDEGe7OQTNnpwT8yFXrwSDSbmC5RdDj1NYrMHfu9tOOXtUiksxTW9bL2rcJmpg","expires_in":7200}"
 	}
 	
 	public Map<String,Object> sendMessage(String message, String userId){
