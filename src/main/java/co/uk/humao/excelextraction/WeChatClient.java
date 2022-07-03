@@ -31,14 +31,16 @@ public class WeChatClient {
 	String sendMessageUrl = "https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=";
 	public String getToken() {
 		return httpGet(getTokenUrl);
-		//return sample:"{"errcode":0,"errmsg":"ok","access_token":"gZqsAzJlsSZ78WDDg9ITFFdAb2xvN2zcw4wk9Vr_XrtazOzgsmQYr_Yy7QNffIcshR28ROVKm5cBAorvEm7mU1jUFmHZVUQK0OMIuA1YJIK5BmiRNTuzq1Isf9yHmAJLnDfjT0mGQn9YVsGBl4zN4QNVkDEGe7OQTNnpwT8yFXrwSDSbmC5RdDj1NYrMHfu9tOOXtUiksxTW9bL2rcJmpg","expires_in":7200}"
 	}
 	
 	public Map<String,Object> sendMessage(String message, String userId){
 		
-		String token = getToken();
+		String tokenJson = getToken();
+		JsonParser parser = new JsonParser();
+       		JsonElement element = parser.parse(tokenJson);
+        	JsonObject root = element.getAsJsonObject();
+        	String token = root.get("access_token").getAsString();
 		Map<String,Object> returnMap = new HashMap<>();
-
 		Map<String,Object> paramMap = new HashMap<>();
 		Map<String,Object> textMap = new HashMap<>();
 		paramMap.put("touser",userId);
