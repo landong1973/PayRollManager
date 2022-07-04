@@ -26,7 +26,7 @@ public class WeChatClient {
 	public static final String CORP_SECRETE= "XXXXXXX";
 	public static final int AGENT_ID =  111111;
 	
-	String getTokenUrl = "https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid="+CORP_ID+"&cor[secret="+CORP_SECRETE;
+	String getTokenUrl = "https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid="+CORP_ID+"&corpsecret="+CORP_SECRETE;
 	
 	String sendMessageUrl = "https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=";
 	public String getToken() {
@@ -35,9 +35,12 @@ public class WeChatClient {
 	
 	public Map<String,Object> sendMessage(String message, String userId){
 		
-		String token = getToken();
+		String tokenJson = getToken();
+		JsonParser parser = new JsonParser();
+       		JsonElement element = parser.parse(tokenJson);
+        	JsonObject root = element.getAsJsonObject();
+        	String token = root.get("access_token").getAsString();
 		Map<String,Object> returnMap = new HashMap<>();
-
 		Map<String,Object> paramMap = new HashMap<>();
 		Map<String,Object> textMap = new HashMap<>();
 		paramMap.put("touser",userId);
