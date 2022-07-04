@@ -20,6 +20,9 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 public class WeChatClient {
 	public static final String CORP_ID= "XXXXXXX";
@@ -37,9 +40,9 @@ public class WeChatClient {
 		
 		String tokenJson = getToken();
 		JsonParser parser = new JsonParser();
-       		JsonElement element = parser.parse(tokenJson);
-        	JsonObject root = element.getAsJsonObject();
-        	String token = root.get("access_token").getAsString();
+       	JsonElement element = parser.parse(tokenJson);
+        JsonObject root = element.getAsJsonObject();
+        String token = root.get("access_token").getAsString();
 		Map<String,Object> returnMap = new HashMap<>();
 		Map<String,Object> paramMap = new HashMap<>();
 		Map<String,Object> textMap = new HashMap<>();
