@@ -42,7 +42,9 @@ public class WeChatClient {
 		JsonParser parser = new JsonParser();
        	JsonElement element = parser.parse(tokenJson);
         JsonObject root = element.getAsJsonObject();
-        String token = root.get("access_token").getAsString();
+        String token = "dummyToken";
+        if (root.get("access_token")!= null)
+        	token = root.get("access_token").getAsString();
 		Map<String,Object> returnMap = new HashMap<>();
 		Map<String,Object> paramMap = new HashMap<>();
 		Map<String,Object> textMap = new HashMap<>();
@@ -140,10 +142,11 @@ public class WeChatClient {
 		
 		httpPost.addHeader("Content-type","application/json; charset=utf-8");
 		
-		if (paramsMap != null && paramsMap.isEmpty()) {
+		if (paramsMap != null && !paramsMap.isEmpty()) {
 			
 			JSONObject jsonObject = new JSONObject(paramsMap);
-			StringEntity params = new StringEntity(jsonObject.toString(),Consts.UTF_8);
+			String jsonstr = jsonObject.toString();
+			StringEntity params = new StringEntity(jsonstr,Consts.UTF_8);
 			httpPost.setEntity(params);
 		}
 		
