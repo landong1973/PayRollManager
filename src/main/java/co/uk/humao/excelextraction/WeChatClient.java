@@ -17,7 +17,6 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-import org.json.JSONObject;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -53,7 +52,7 @@ public class WeChatClient {
 		paramMap.put("agentid",AGENT_ID);
 		textMap.put("content",message);
 		
-		paramMap.put("text",textMap);
+		paramMap.put("text",hashMapToJson(textMap));
 		paramMap.put("safe",0);
 		paramMap.put("enable_id_trans",0);
 		paramMap.put("enable_duplicate_check",0);
@@ -79,6 +78,24 @@ public class WeChatClient {
 		
 	}
 	
+	public static String hashMapToJson(Map<String, Object> map) {
+		String string = "{";
+		String valuestring = "";
+		for (Iterator it = map.entrySet().iterator(); it.hasNext();) {
+		    Map.Entry e = (Map.Entry) it.next();
+		    string += "\"" + e.getKey() + "\":";
+		    valuestring = e.getValue().toString();
+		    if (valuestring.startsWith("{")) {
+			string += e.getValue() + ",";
+		    }
+		    else {
+			string += "\"" + e.getValue() + "\",";
+		    }
+		}
+		string = string.substring(0, string.lastIndexOf(","));
+		string += "}";
+		return string;
+	    }
 	
 	public String httpGet(String requestUrl) {
 		CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -142,8 +159,7 @@ public class WeChatClient {
 		
 		if (paramsMap != null && paramsMap.isEmpty()) {
 			
-			JSONObject jsonObject = new JSONObject(paramsMap);
-			StringEntity params = new StringEntity(jsonObject.toString(),Consts.UTF_8);
+			StringEntity params = new StringEntity(hashMapToJson(paramsMap),Consts.UTF_8);
 			httpPost.setEntity(params);
 		}
 		
