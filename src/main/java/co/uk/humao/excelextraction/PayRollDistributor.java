@@ -29,7 +29,7 @@ public class PayRollDistributor {
 
 	public static void main(String[] args) {
 		
-		String filename = "C:\\development\\workspace-2\\excelextraction\\archive\\工资条条目-2022-07.xls";
+		String filename = ".\\archive\\工资条条目-2022-07.xls";
 		Pattern p = Pattern.compile("\\\\[^\\\\]+-(\\d{4})-(\\d{2})\\.xls$");
 		Matcher m = p.matcher(filename);
 		String year = null;
