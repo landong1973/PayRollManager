@@ -1,0 +1,1 @@
+java -jar ../target/PayRollManager-0.0.1-SNAPSHOT.jar

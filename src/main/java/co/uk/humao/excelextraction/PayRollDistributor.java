@@ -1,5 +1,6 @@
 package co.uk.humao.excelextraction;
 
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -37,6 +38,53 @@ public class PayRollDistributor {
 		else throw new Exception("unrecgnized staff number!");
 	}
 
+	
+	public void distributeMsg(Path path ) throws Exception {
+		
+		String filename = path.toFile().getAbsolutePath();
+		Pattern p = Pattern.compile("\\\\[^\\\\]+-(\\d{4})-(\\d{2})\\.xls$");
+		Matcher m = p.matcher(filename);
+		String year = null;
+		String month = null;
+		if (m.find()) {
+			year= m.group(1);
+			month = m.group(2);
+			
+		}
+		
+		if (month != null && month != null) {
+			ApachePOIExcelReader reader= new ApachePOIExcelReader(filename);
+			List<List<String>> table =reader.readExcelFile();
+			HashMap<String,String> texts = reader.serializeTable(table, year , month);
+			
+			Set<String> keys =texts.keySet();
+			Iterator<String> it = keys.iterator();
+			WeChatClient client = new WeChatClient();
+			PayRollDistributor exec = new PayRollDistributor();
+			while(it.hasNext()) {
+				
+				String key = it.next();
+				String value = texts.get(key);
+				System.out.println(key+"\n"+value);
+				String userId;
+				try {
+					userId = exec.getUserID(key);
+					client.sendMessage(value, userId);
+
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					throw e;
+				}
+			}
+			
+			
+		}else {
+			throw new PayRollException("Invalid filename, expect to be '工资条条目-YYYY-MM.xls' ");
+			
+		}
+		
+	}
 
 	public static void main(String[] args) {
 		
