@@ -36,13 +36,12 @@ public class WeChatClient {
 		return httpGet(getTokenUrl);
 	}
 	
-	public Map<String,Object> sendMessage(String message, String userId){
+	public Map<String,Object> sendMessage(String message, String userId, String Token){
 		
-		String tokenJson = getToken();
 		JsonParser parser = new JsonParser();
-       	JsonElement element = parser.parse(tokenJson);
-        JsonObject root = element.getAsJsonObject();
-        String token = root.get("access_token").getAsString();
+		JsonElement element = parser.parse(Token);
+		JsonObject root = element.getAsJsonObject();
+		String token = root.get("access_token").getAsString();
 		Map<String,Object> returnMap = new HashMap<>();
 		Map<String,Object> paramMap = new HashMap<>();
 		Map<String,Object> textMap = new HashMap<>();
