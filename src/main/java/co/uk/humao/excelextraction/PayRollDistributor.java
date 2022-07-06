@@ -15,9 +15,14 @@ public class PayRollDistributor {
 	public PayRollDistributor() {
 		super();
 		
-		userIDs.put("03214", "XXXX");
-		userIDs.put("03215", "XXXX");
-		userIDs.put("A89654", "XXXX");
+		
+		String filename = ".\\archive\\用户ID索引表.xls";
+		ApachePOIExcelReader reader= new ApachePOIExcelReader(filename);
+		List<List<String>> IDINDEX =reader.readExcelFile();
+		for (int i = 0; i < IDINDEX.size(); i++) {
+			List<String> IDL = IDINDEX.get(i);
+			userIDs.put(IDL.get(0),IDL.get(1));
+			}
 	}
 	
 	public String getUserID(String staffNumber) throws Exception {
