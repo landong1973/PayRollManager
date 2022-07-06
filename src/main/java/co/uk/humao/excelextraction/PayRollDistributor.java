@@ -16,6 +16,10 @@ public class PayRollDistributor {
 		super();
 		
 		
+		userIDs.put("03214", "XXXX");
+		userIDs.put("03215", "XXXX");
+		userIDs.put("A89654", "XXXX");
+		/*
 		String filename = ".\\archive\\用户ID索引表.xls";
 		ApachePOIExcelReader reader= new ApachePOIExcelReader(filename);
 		List<List<String>> IDINDEX =reader.readExcelFile();
@@ -23,6 +27,8 @@ public class PayRollDistributor {
 			List<String> IDL = IDINDEX.get(i);
 			userIDs.put(IDL.get(0),IDL.get(1));
 			}
+			
+		*/	
 	}
 	
 	public String getUserID(String staffNumber) throws Exception {
@@ -34,7 +40,7 @@ public class PayRollDistributor {
 
 	public static void main(String[] args) {
 		
-		String filename = ".\\archive\\工资条条目-2022-07.xls";
+		String filename = "C:\\development\\workspace-2\\PayRollManager\\archive\\工资条条目-2022-07.xls";
 		Pattern p = Pattern.compile("\\\\[^\\\\]+-(\\d{4})-(\\d{2})\\.xls$");
 		Matcher m = p.matcher(filename);
 		String year = null;

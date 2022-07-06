@@ -32,17 +32,24 @@ public class WeChatClient {
 	String getTokenUrl = "https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid="+CORP_ID+"&corpsecret="+CORP_SECRETE;
 	
 	String sendMessageUrl = "https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=";
+	
+	private static String token = null;
+	
 	public String getToken() {
-		return httpGet(getTokenUrl);
+		
+		if (WeChatClient.token== null) {
+			String tokenJson = httpGet(getTokenUrl);
+			JsonParser parser = new JsonParser();
+	       	JsonElement element = parser.parse(tokenJson);
+	        JsonObject root = element.getAsJsonObject();
+	        WeChatClient.token = root.get("access_token").getAsString();
+		}
+		return WeChatClient.token;
 	}
 	
 	public Map<String,Object> sendMessage(String message, String userId){
 		
-		String tokenJson = getToken();
-		JsonParser parser = new JsonParser();
-       	JsonElement element = parser.parse(tokenJson);
-        JsonObject root = element.getAsJsonObject();
-        String token = root.get("access_token").getAsString();
+		String token = getToken();
 		Map<String,Object> returnMap = new HashMap<>();
 		Map<String,Object> paramMap = new HashMap<>();
 		Map<String,Object> textMap = new HashMap<>();
