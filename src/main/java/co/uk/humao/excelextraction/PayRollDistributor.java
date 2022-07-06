@@ -49,6 +49,7 @@ public class PayRollDistributor {
 			Iterator<String> it = keys.iterator();
 			WeChatClient client = new WeChatClient();
 			PayRollDistributor exec = new PayRollDistributor();
+			String access_token = client.getToken();
 			while(it.hasNext()) {
 				
 				String key = it.next();
@@ -57,7 +58,7 @@ public class PayRollDistributor {
 				String userId;
 				try {
 					userId = exec.getUserID(key);
-					client.sendMessage(value, userId);
+					client.sendMessage(value, userId, access_token);
 
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
